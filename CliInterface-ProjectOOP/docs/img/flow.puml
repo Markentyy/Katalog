@@ -1,0 +1,25 @@
+@startuml
+skinparam monochrome true
+skinparam sequenceMessageAlign center
+
+participant User
+participant Repl
+participant "Cli (facade)" as Cli
+participant LineParser
+participant ICommandStrategy
+participant Command
+participant IRenderable
+participant IRenderer
+participant IConsole
+
+User -> Repl : ввід команди
+Repl -> Cli : ExecCommand(line)
+Cli -> LineParser : Parse(line)
+LineParser --> Cli : ParsedCommand
+Cli -> ICommandStrategy : пошук за дієсловом
+Cli -> Command : Execute(cli, parsed)
+Cli -> IRenderable : Display(renderable)
+IRenderable -> IRenderer : Render(console)
+IRenderer -> IConsole : Write / WriteLine
+IConsole --> User : результат
+@enduml
