@@ -1,0 +1,57 @@
+[
+  {
+    "id": "char-1",
+    "name": "Diluc",
+    "element": "Pyro",
+    "weapon": "Claymore",
+    "region": "Mondstadt",
+    "health": 1100,
+    "damage": 240,
+    "armor": 80,
+    "resist": 10
+  },
+  {
+    "id": "char-2",
+    "name": "Jean",
+    "element": "Anemo",
+    "weapon": "Sword",
+    "region": "Mondstadt",
+    "health": 1050,
+    "damage": 180,
+    "armor": 70,
+    "resist": 15
+  },
+  {
+    "id": "char-3",
+    "name": "Raiden Shogun",
+    "element": "Electro",
+    "weapon": "Polearm",
+    "region": "Inazuma",
+    "health": 1250,
+    "damage": 260,
+    "armor": 90,
+    "resist": 20
+  },
+  {
+    "id": "char-4",
+    "name": "Nahida",
+    "element": "Dendro",
+    "weapon": "Catalyst",
+    "region": "Sumeru",
+    "health": 900,
+    "damage": 200,
+    "armor": 60,
+    "resist": 25
+  },
+  {
+    "id": "char-5",
+    "name": "Tartaglia",
+    "element": "Hydro",
+    "weapon": "Bow",
+    "region": "Snezhnaya",
+    "health": 1000,
+    "damage": 220,
+    "armor": 75,
+    "resist": 12
+  }
+]
