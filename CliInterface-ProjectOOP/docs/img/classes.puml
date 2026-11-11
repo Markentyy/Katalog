@@ -1,0 +1,112 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+
+package "Cli" {
+  class Repl {
+    +Run(console: IConsole, cli: Cli, intro: string)
+  }
+  class Cli as "Cli (facade)" {
+    +QuitRequested: bool
+    +UseStrategy(strategy: ICommandStrategy)
+    +ExecCommand(line: string)
+    +Display<T>(renderable: T)
+  }
+  class ICommandStrategy {
+    +Commands: IReadOnlyCollection<ICommand>
+  }
+  class InfoStrategy <<ICommandStrategy>>
+  class TransformStrategy <<ICommandStrategy>>
+  class InfraStrategy <<ICommandStrategy>>
+  class ICommand {
+    +Name: string
+    +Summary: string
+    +Usage: string
+    +Execute(cli: Cli, cmd: ParsedCommand)
+  }
+  class LsCommand <<ICommand>>
+  class InfoCommand <<ICommand>>
+  class CreateCommand <<ICommand>>
+  class AddCommand <<ICommand>>
+  class SaveCommand <<ICommand>>
+  class LoadCommand <<ICommand>>
+  class HelpCommand <<ICommand>>
+}
+
+package "Rendering" {
+  class CharacterTable {
+    -_rows: IReadOnlyList<CharacterRow>
+    -_renderer: IRenderer<IReadOnlyList<CharacterRow>>
+    +Render(console: IConsole)
+  }
+  class CharacterRow {
+    +Id: string
+    +Character: Character
+    +ItemCount: int
+    +AbilityCount: int
+  }
+  class CharacterCardView {
+    -_card: CharacterCard
+    -_renderer: IRenderer<CharacterCard>
+    +Render(console: IConsole)
+  }
+  class CharacterTableRenderer {
+    +Render(data: IReadOnlyList<CharacterRow>, console: IConsole)
+  }
+  class CharacterCardRenderer {
+    +Render(data: CharacterCard, console: IConsole)
+  }
+  interface IRenderable {
+    +Render(console: IConsole)
+  }
+  interface IRenderer<T> {
+    +Render(data: T, console: IConsole)
+  }
+  class CharacterCard {
+    +Id: string
+    +Character: Character
+    +Items: IReadOnlyList<KeyValuePair<string, Equipment>>
+    +AbilityIds: IReadOnlyList<string>
+  }
+  class Bar {
+    +Current: int
+    +Max: int
+    +Text: string
+    +Of(current: int, max: int): string
+  }
+}
+
+package "Core" {
+  class Character
+  class Equipment
+  class Ability
+  class CharacterWorld {
+    +Characters: Registry<Character>
+    +Items: Registry<Equipment>
+    +Abilities: Registry<Ability>
+  }
+  interface ICharacterCatalogService
+  class Registry<T>
+}
+
+package "Data" {
+  class JsonWorldStore {
+    -Location: string
+    +SaveWorld(world: CharacterWorld)
+    +LoadWorld(): CharacterWorld
+  }
+  interface IWorldStore
+}
+
+Cli ..> ICommandStrategy
+Cli ..> ICommand
+Cli ..> IRenderable
+Repl ..> Cli
+Repl ..> IConsole
+CharacterCardView ..> IRenderable
+CharacterCardView ..> IRenderer
+CharacterTableRenderer ..> IRenderer
+CharacterCardRenderer ..> IRenderer
+CharacterWorld ..> Registry
+JsonWorldStore ..> IWorldStore
+@enduml
